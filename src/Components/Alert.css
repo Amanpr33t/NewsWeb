@@ -1,0 +1,40 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.alert{
+    z-index: 1;
+    position: fixed;
+    top:0px;
+    height: 48px;
+    width: 100%;
+    margin-top: 58px;
+    display: none;
+}
+h3{
+    margin-left: 30px;
+    font-size: 25px;
+    padding-bottom: 4px;
+}
+p{
+    margin-left: 20px;
+    font-size: 20px;
+    padding-bottom: 4px;
+}
+.display{
+    display: flex;
+    justify-content:flex-start;
+    align-items: center;
+}
+.success{
+    background-color: rgb(148, 196, 76);
+}
+.failure{
+    background-color: rgb(221, 68, 68);
+}
+.warning{
+    background-color: rgb(228, 172, 69);
+}
+
+
