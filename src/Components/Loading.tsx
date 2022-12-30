@@ -5,9 +5,10 @@ const Loading:React.FC=()=>{
     
     return(
         <>
-        <div className="alert ">
-            <h3>Success!</h3>
-            <p>you have successfully logged in</p>
+        <div className="loading">
+            <section className="loading-gif">
+                <img src="../loading.gif" alt="Loading......." />
+            </section>
         </div>
          
         </>

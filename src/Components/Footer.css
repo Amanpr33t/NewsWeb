@@ -1,15 +1,12 @@
-
 *{
-    margin:0;
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-.loading{
-    margin-top: 30vh;
-    font-size: 30px;
-    display: none;
-}
-.display-loading{
+.footer{
+    width: 100%;
+    height: 58px;
+    background-color: aquamarine;
     display: flex;
     justify-content: center;
     text-align: center;

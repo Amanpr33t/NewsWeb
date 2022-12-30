@@ -4,28 +4,25 @@
     box-sizing: border-box;
 }
 .alert{
-    z-index: 1;
     position: fixed;
-    top:0px;
+    top: 58px;
     height: 48px;
     width: 100%;
-    margin-top: 58px;
     display: none;
 }
+.display-alert{
+    display: flex;
+    justify-content: left;
+}
 h3{
-    margin-left: 30px;
+    margin-left: 20px;
     font-size: 25px;
-    padding-bottom: 4px;
+    padding-top: 4px;
 }
 p{
     margin-left: 20px;
     font-size: 20px;
-    padding-bottom: 4px;
-}
-.display{
-    display: flex;
-    justify-content:flex-start;
-    align-items: center;
+    padding-top: 7px;
 }
 .success{
     background-color: rgb(148, 196, 76);
@@ -35,6 +32,11 @@ p{
 }
 .warning{
     background-color: rgb(228, 172, 69);
+}
+@media screen and (max-width:424px) {
+    .alert{
+        display: none;
+    }
 }
 
 
