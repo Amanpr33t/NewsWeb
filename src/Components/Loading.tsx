@@ -5,7 +5,7 @@ const Loading:React.FC=()=>{
     
     return(
         <>
-        <div className="loading">
+        <div className="hide-loading">
             <section className="loading-gif">
                 <img src="../loading.gif" alt="Loading......." />
             </section>

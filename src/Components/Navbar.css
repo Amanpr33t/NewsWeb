@@ -11,36 +11,53 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    background-color: rgb(227, 235, 232);
+    background-color: rgb(200, 214, 209);
+    z-index: 1;
 }
 .heading{
+    text-decoration: none;
+    color: black;
     padding-left: 5px;
     padding-right: 5px;
     padding-bottom: 5px;
     font-size: 35px;
 }
 .logout{
+    text-decoration: none;
+    color: black;
     font-size: 20px;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
     padding-bottom: 5px;
-    margin-right: 15px;
-    margin-left: 20px;
+    margin-right: 0px;
+    margin-left: 10px;
+}
+.login,.signup{
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 18px;
+    padding-top: 13px;
+    margin-right: 0px;
 }
 .category{
+    text-decoration: none;
+    color: black;
     font-size: 20px;
     padding-left: 5px;
     padding-right: 5px;
     padding-bottom: 5px;
 }
 .heading,.category,.logout{
-    height: 50px;
+    height: 58px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.category:hover,.logout:hover,.heading:hover{
-     background-color: rgb(205, 218, 213);
+.category:hover,.logout:hover,.heading:hover,.signup:hover,.login:hover{
+     background-color: rgb(172, 194, 186);
      cursor: pointer;
 }
 .country:hover{
@@ -61,13 +78,22 @@
     padding-left: 7px;
     padding-right: 5px;
 }
+
 .search-form{
     display: flex;
     justify-content: center;
     height: 35px;
     margin-left: 20px;
 }
-
+.news-category{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.input{
+    margin-top:0px;
+    height:35px;
+    width:150px
+}
 @media screen and (max-width:1144px) {
     .category-dropdown{
         display: flex;
@@ -79,9 +105,13 @@
     }
     .country-dropdown{
         margin-left: 20px;
+    }  
+    .logout{
+        margin-left: 10px;
     }
-}
-@media screen and (max-width:1144px) {
+   }
+
+@media screen and (max-width:656px) {
     .input{
         display: none;
     }
@@ -94,7 +124,7 @@
         display: none;
     }
 }
-@media screen and (max-width:374px) {
+@media screen and (max-width:382px) {
     .country-dropdown{
         display: none;
     }

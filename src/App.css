@@ -6,6 +6,7 @@
 
 .App{
   width:100%;
-  min-height: 100vh;
+  min-height: 98vh;
+  margin-bottom: 10px;
 }
 

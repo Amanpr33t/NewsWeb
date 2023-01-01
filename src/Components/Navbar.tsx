@@ -5,16 +5,15 @@ const Navbar:React.FC=()=>{
     
     return(
         <>
-         <div className="navbar">
-           
-            <div className="heading">NewsWeb</div>
-            <div className="category ">general</div>
-            <div className="category ">business</div>
-            <div className="category ">health</div>
-            <div className="category ">science</div>
-            <div className="category ">sports</div>
-            <div className="category ">technology</div>
-            <div className="category ">entertainment</div>
+         <nav className="navbar">
+            <a className="heading" href="#">NewsWeb</a>
+            <a className="category " href="#">general</a>
+            <a className="category " href="#">business</a>
+            <a className="category " href="#">health</a>
+            <a className="category " href="#">science</a>
+            <a className="category "href="#">sports</a>
+            <a className="category " href="#">technology</a>
+            <a className="category " href="#">entertainment</a>
             
             <div className="empty"></div>
             
@@ -42,9 +41,13 @@ const Navbar:React.FC=()=>{
                 <input className="input" type="text" name="search" id="search" placeholder="search..." autoComplete="on"  />
             </form>
             
-            <div className="logout ">logout</div>
+    <a className="logout " href="#">logout</a>
+            
+            {/*<div className="empty" ></div>
+            <a className="signup" href="#">signUp</a>
+<a className="login" href="#">login</a>*/}
 
-            </div>
+            </nav>
             
         </>
     )

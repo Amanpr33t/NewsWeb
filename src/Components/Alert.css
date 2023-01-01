@@ -3,38 +3,33 @@
     padding: 0;
     box-sizing: border-box;
 }
-.alert{
-    position: fixed;
-    top: 58px;
-    height: 48px;
-    width: 100%;
+.hide-alert{
     display: none;
 }
-.display-alert{
+.show-alert{
+    position: fixed;
+    top: 58px;
+    width: 100%;
     display: flex;
-    justify-content: left;
+    height: 50px;
 }
-h3{
+.alert-h3,.alert-p{
     margin-left: 20px;
-    font-size: 25px;
-    padding-top: 4px;
-}
-p{
-    margin-left: 20px;
+    padding-top: 10px;
     font-size: 20px;
-    padding-top: 7px;
 }
 .success{
     background-color: rgb(148, 196, 76);
 }
 .failure{
-    background-color: rgb(221, 68, 68);
+    background-color: rgb(172, 72, 72);
 }
 .warning{
     background-color: rgb(228, 172, 69);
 }
-@media screen and (max-width:424px) {
-    .alert{
+
+@media screen and (max-width:744px) {
+    .hide-alert{
         display: none;
     }
 }
