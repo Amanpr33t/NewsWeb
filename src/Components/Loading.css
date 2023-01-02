@@ -4,9 +4,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-.hide-loading{
-    display: none;
-}
+
 .show-loading{
     position: fixed;
     top: 200px;
