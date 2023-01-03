@@ -52,7 +52,7 @@ const Card:React.FC=()=>{
                              <p className="publishedOn">Published on:</p>
                              <p className="publish-Date">{newsItem.publishedAt}</p>
                          </div>
-                         <div className="news-link"><a className="news-url-link" href={newsItem.url}>Read more</a></div>
+                         <div className="news-link"><a className="news-url-link" href={newsItem.url} target="_blank" rel="noopener noreferrer">Read more</a></div>
                 </div>
             )
         })}

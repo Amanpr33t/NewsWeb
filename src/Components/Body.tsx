@@ -8,6 +8,7 @@ const Body:React.FC=()=>{
    
     return(
         <>
+        <div className="top"></div>
         <div className="body">
             <Card/>
                  </div>         

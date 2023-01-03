@@ -4,11 +4,11 @@ import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState, useContext, useRef } from "react"
 import { NewsItemsActions } from "../store/slices/NewsItems-Slice"
+import { ActivePageActions } from "../store/slices/ActivePage-Slice"
 import NewsEnablerContext from "../context/newsEnabler-context"
-import { url } from "inspector"
 
 const Navbar:React.FC=()=>{
-    let apiKey='b13df3de30734fee9909292c435c6dee'
+    let apiKey='d3f073e870e54878b8925d1a77216c96'
 
     type NewsItemType={
         status:'ok',
@@ -27,6 +27,11 @@ const Navbar:React.FC=()=>{
             title:string
     }]
     }
+    type ActivePageStateType={
+        ActivePage:{
+            activePage:number
+        }
+    }
     const [country, setCountry]= useState<string>('in')
     const [category, setCategory]= useState<string>('general')
     const [searchValue, setSearchValue]=useState<string>('')
@@ -35,6 +40,8 @@ const Navbar:React.FC=()=>{
     console.log(searchValue)
 
     const {newsEnable,newsEnabler}=useContext(NewsEnablerContext)
+
+    const activePageNumber=useSelector((state:ActivePageStateType)=>state.ActivePage.activePage)
 
     const formSubmitHandler=(e:React.FormEvent)=>{
           e.preventDefault()
@@ -45,12 +52,13 @@ const Navbar:React.FC=()=>{
           }
         }
 
+
     useEffect(()=>{
         let url:string
         if(searchValue!==''){
-            url=`https://newsapi.org/v2/top-headlines?country=in&q=${searchValue}&apiKey=${apiKey}`
+            url=`https://newsapi.org/v2/top-headlines?country=in&q=${searchValue}&apiKey=${apiKey}&page=${activePageNumber}`
         }else{
-            url=`https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&pageSize=9&apiKey=${apiKey}`
+            url=`https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&pageSize=9&apiKey=${apiKey}&page=${activePageNumber}`
         }
         fetch(url)
         .then(response=>{
@@ -66,7 +74,7 @@ const Navbar:React.FC=()=>{
                }, 20000);
             }
         })
-        },[country,category,dispatch,newsEnabler,apiKey,searchValue])
+        },[country,category,dispatch,newsEnabler,apiKey,searchValue,activePageNumber])
     
     return(
         <>
@@ -118,3 +126,27 @@ const Navbar:React.FC=()=>{
     )
 }
 export default Navbar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
