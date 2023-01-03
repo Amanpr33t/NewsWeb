@@ -1,14 +1,17 @@
 import React from "react"
 import './Loading.css'
-import { useEffect, useState, useContext } from "react"
-import NewsEnablerContext from "../context/newsEnabler-context"
+import { useSelector } from "react-redux"
 
 const Loading:React.FC=()=>{
-    
-    const {newsEnable}=useContext(NewsEnablerContext)
+    interface StateType{
+        Loader:{
+            isLoader:boolean
+        }
+    }
+    const isLoader=useSelector((state:StateType)=>state.Loader.isLoader)
 
     return(
-        <>{!newsEnable && <div className="show-loading">
+        <>{isLoader && <div className="show-loading">
         <section className="loading-gif">
             <img src="../loading.gif" alt="Loading......." />
         </section>

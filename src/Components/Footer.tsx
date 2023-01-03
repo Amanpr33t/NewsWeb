@@ -4,6 +4,7 @@ import { useEffect, useState, useContext, useRef } from "react"
 import NewsEnablerContext from "../context/newsEnabler-context"
 import { useDispatch, useSelector } from "react-redux"
 import { ActivePageActions } from "../store/slices/ActivePage-Slice"
+import { PageNumberActions } from "../store/slices/PageNumber-slice"
 
 const Footer:React.FC=()=>{
     type FooterStateType={
@@ -30,11 +31,19 @@ const Footer:React.FC=()=>{
             activePage:number
         }
     }
+    interface PageNumberStateType{
+        PageNumber:{
+            pageNumber:number
+        }
+    }
+
+    const pageNumber=useSelector((state:PageNumberStateType)=>state.PageNumber.pageNumber)
+    
    
     const inputRef=useRef<HTMLInputElement>(null)
     const dispatch=useDispatch()
     const {newsEnable}=useContext(NewsEnablerContext)
-    const [pageNumber,setPageNumber]=useState<number>(1)
+    //const [pageNumber,setPageNumber]=useState<number>(1)
     const totalResults=useSelector((state:FooterStateType)=>state.NewsItems.totalResults)
     const activePageNumber=useSelector((state:ActivePageStateType)=>state.ActivePage.activePage)
     const numberOfPages:number=Math.ceil(+totalResults/9)
@@ -49,7 +58,7 @@ const Footer:React.FC=()=>{
         if(numberOfPages>activePageNumber){
             
             if(activePageNumber%3===0 ){
-                setPageNumber((pageNumber)=>pageNumber+3)
+                dispatch(PageNumberActions.setPageNumber(pageNumber+3))
                 if(numberOfPages-activePageNumber===1){
                     document.getElementById('button2')!.classList.add('button-display-none')
                     document.getElementById('button3')!.classList.add('button-display-none')
@@ -82,7 +91,7 @@ const Footer:React.FC=()=>{
         if(activePageNumber>1){
             dispatch(ActivePageActions.setActivePage(activePageNumber-1))
             if(document.getElementById('button1')!.classList.contains('button-active')===true ){
-                setPageNumber((pageNumber)=>pageNumber-3)
+                dispatch(PageNumberActions.setPageNumber(pageNumber-3))
                 document.getElementById('button1')!.classList.remove('button-active')
                 document.getElementById('button2')!.classList.remove('button-active') 
                 document.getElementById('button3')!.classList.add('button-active')
@@ -106,7 +115,7 @@ const Footer:React.FC=()=>{
     document.documentElement.scrollTop = 0;
  
     if(+inputRef.current!.value%3===0){
-        setPageNumber(+inputRef.current!.value-2)
+        dispatch(PageNumberActions.setPageNumber(+inputRef.current!.value-2))
         document.getElementById('button1')!.classList.remove('button-active')
         document.getElementById('button2')!.classList.remove('button-active') 
         document.getElementById('button3')!.classList.add('button-active')
@@ -115,7 +124,7 @@ const Footer:React.FC=()=>{
         document.getElementById('button3')!.classList.remove('button-display-none')
         
     }else if((+inputRef.current!.value+1)%3===0){
-        setPageNumber(+inputRef.current!.value-1)
+        dispatch(PageNumberActions.setPageNumber(+inputRef.current!.value-1))
         document.getElementById('button1')!.classList.remove('button-active')
         document.getElementById('button2')!.classList.add('button-active') 
         document.getElementById('button3')!.classList.remove('button-active')
@@ -127,7 +136,7 @@ const Footer:React.FC=()=>{
             document.getElementById('button3')!.classList.remove('button-display-none')
         }
     }else if((+inputRef.current!.value+2)%3===0){
-        setPageNumber(+inputRef.current!.value)
+        dispatch(PageNumberActions.setPageNumber(+inputRef.current!.value))
         document.getElementById('button1')!.classList.add('button-active')
         document.getElementById('button2')!.classList.remove('button-active') 
         document.getElementById('button3')!.classList.remove('button-active')

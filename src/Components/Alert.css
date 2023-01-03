@@ -3,9 +3,6 @@
     padding: 0;
     box-sizing: border-box;
 }
-.hide-alert{
-    display: none;
-}
 .show-alert{
     position: fixed;
     top: 58px;
