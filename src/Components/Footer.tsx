@@ -1,6 +1,6 @@
 import React from "react"
 import './Footer.css'
-import { useEffect, useState, useContext, useRef } from "react"
+import {  useContext, useRef } from "react"
 import NewsEnablerContext from "../context/newsEnabler-context"
 import { useDispatch, useSelector } from "react-redux"
 import { ActivePageActions } from "../store/slices/ActivePage-Slice"
@@ -43,7 +43,6 @@ const Footer:React.FC=()=>{
     const inputRef=useRef<HTMLInputElement>(null)
     const dispatch=useDispatch()
     const {newsEnable}=useContext(NewsEnablerContext)
-    //const [pageNumber,setPageNumber]=useState<number>(1)
     const totalResults=useSelector((state:FooterStateType)=>state.NewsItems.totalResults)
     const activePageNumber=useSelector((state:ActivePageStateType)=>state.ActivePage.activePage)
     const numberOfPages:number=Math.ceil(+totalResults/9)
@@ -202,16 +201,19 @@ const Footer:React.FC=()=>{
             <button className="button-number button-active" id='button1' onClick={button1}>{pageNumber}</button>
              <button className="button-number " id='button2' onClick={button2}>{pageNumber+1}</button>
              </> }
+
              {numberOfPages>2 && <button className="button-number " id='button3' onClick={button3}>{pageNumber+2}</button>}
+
              {numberOfPages>1 && <button className="next" onClick={nextClick}>Next</button>}
               </div> 
-              </>
-       }
+              
             
            {numberOfPages>1 && <form className="page-form" onSubmit={formSubmit}>
                 <label className="footer-label" htmlFor="page-number">Go to page</label>
                 <input className="footer-input" type="number" name='page-number' id='page-number' min={1} max={numberOfPages} ref={inputRef}/>
             </form>} 
+            </>
+       }
             </>   
     
     )

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface stateType{
     isAlert:boolean,
-    type:''|'success'|'danger'|'warning'
+    type:''|'success'|'failure'|'warning'
     message:string
 }
 const initialState:stateType={
@@ -13,7 +13,7 @@ const initialState:stateType={
 interface actionType{
         payload:{
             isAlert:boolean,
-            type:''|'success'|'danger'|'warning'
+            type:''|'success'|'failure'|'warning'
             message:string
         }
 }
