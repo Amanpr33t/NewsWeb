@@ -15,7 +15,8 @@ import { HideDropdownActions } from "../store/slices/Dropdown-hide-slice"
 const Navbar:React.FC=()=>{
 
     const history=useHistory()
-    let apiKey='b13df3de30734fee9909292c435c6dee'
+    const dispatch=useDispatch()
+    let apiKey:string='43148670665846a080317d2648fb53f0'
 
     type ActivePageStateType={
         ActivePage:{
@@ -35,26 +36,28 @@ const Navbar:React.FC=()=>{
     const [category, setCategory]= useState<string>('general')
     const [searchValue, setSearchValue]=useState<string>('')
     const [searchEnable, setSearchEnable]= useState<boolean>(false)
+    
     const searchRef=useRef<HTMLInputElement>(null)
-
-    const dispatch=useDispatch()
 
     const {newsEnabler}=useContext(NewsEnablerContext)
 
     const activePageNumber=useSelector((state:ActivePageStateType)=>state.ActivePage.activePage)
-    const hideDropdown=useSelector((state:HideDropdownStateType)=>state.HideDropdown.hideDropdown)
-    console.log(hideDropdown)
+
+    const bodyClick=useSelector((state:HideDropdownStateType)=>state.HideDropdown.hideDropdown)
+    console.log(bodyClick)
 
     const searchFormSubmitHandler=(e:React.FormEvent)=>{
           e.preventDefault()
           if(searchRef.current!.value.trim()!==''){
              setSearchEnable(true)
+             setCountry('')
+             setCategory('')
             setSearchValue(searchRef.current!.value.trim())
             dispatch(PageNumberActions.setPageNumber(1))
             dispatch(ActivePageActions.setActivePage(1))
             newsEnabler(false)
                 dispatch(LoaderActions.setLoader(true))
-                history.push('/')
+               // history.push('/')
                 dispatch(AlertActions.setAlert({
                     isAlert:false,
                     type:'',
@@ -72,7 +75,7 @@ const Navbar:React.FC=()=>{
                 type:'',
                 message:''
          }))
-         }, 5000);
+         }, 10000);
           }
         }
     
@@ -93,19 +96,22 @@ const Navbar:React.FC=()=>{
         })
         .then((news)=>{
             if(news.status==='ok' && news.totalResults>0){
+                
                 dispatch(NewsItemsActions.setNewsItems(news))
                 dispatch(LoaderActions.setLoader(false))
                 newsEnabler(true)
-                    
-                 if(searchEnable){
-                    
-                 }
-                 else{
-                   
-                 }
+                if(searchEnable){
+                    history.push(`/`)
+                    setTimeout(() => {
+                        searchRef.current!.value=''
+                    }, 400);
+                }else{
+                    history.push(`/${country}/${category}`)
+                }
             }
             else if(news.status==='ok' && news.totalResults===0){
                 dispatch(LoaderActions.setLoader(false))
+                history.push('/')
                 if(searchEnable){
                         dispatch(AlertActions.setAlert({
                             isAlert:true,
@@ -118,13 +124,18 @@ const Navbar:React.FC=()=>{
                             type:'',
                             message:``
                         }))
-                    }, 5000);
+                    }, 10000);
                     
                     setTimeout(() => {
                         searchRef.current!.value=''
                     }, 400);
-                }
-                else{
+                }else{
+                    history.push(`/`)
+                    if(searchEnable){
+                        setTimeout(() => {
+                            searchRef.current!.value=''
+                        }, 400);
+                    }
                         dispatch(AlertActions.setAlert({
                             isAlert:true,
                             type:'warning',
@@ -136,12 +147,17 @@ const Navbar:React.FC=()=>{
                             type:'',
                             message:``
                         }))
-                    }, 5000);
+                    }, 10000);
                 }
                 
                  newsEnabler(false)
             }
             else if(news.status!=='ok' ){
+                if(searchEnable){
+                    setTimeout(() => {
+                        searchRef.current!.value=''
+                    }, 400);
+                }
                     dispatch(AlertActions.setAlert({
                         isAlert:true,
                         type:'failure',
@@ -153,21 +169,20 @@ const Navbar:React.FC=()=>{
                         type:'',
                         message:``
                     }))
-                }, 5000);
+                }, 10000);
                 dispatch(LoaderActions.setLoader(false))
                  
                  newsEnabler(false)
             }
         })
-        },[country,category,dispatch,newsEnabler,apiKey,searchValue,activePageNumber,searchEnable])
+        },[country,category,dispatch,newsEnabler,apiKey,searchValue,activePageNumber,searchEnable,history])
 
-        const supportFunction=(categoryName:string,url:string)=>{
+        const supportFunction=(categoryName:string)=>{
             dispatch(PageNumberActions.setPageNumber(1))
             dispatch(ActivePageActions.setActivePage(1))
             newsEnabler(false)
                 dispatch(LoaderActions.setLoader(true))
                 setCategory(categoryName)
-                history.push(url)
                 setSearchEnable(false)
                 setSearchValue('')
                 searchRef.current!.value=''
@@ -181,107 +196,126 @@ const Navbar:React.FC=()=>{
             event.preventDefault()
             if(country!=='ch'){
                 setCountry('ch')
-                supportFunction('general','/ch/')
+                supportFunction('general')
             }
         }
         const japan=(event:React.MouseEvent)=>{
             event.preventDefault()
             if(country!=='jp'){
                 setCountry('jp')
-                supportFunction('general','/jp/')
+                supportFunction('general')
             }
         }
         const russia=(event:React.MouseEvent)=>{
             event.preventDefault()
             if(country!=='ru'){
                 setCountry('ru')
-                supportFunction('general','/ru/')
+                supportFunction('general')
             }
         }
         const usa=(event:React.MouseEvent)=>{
             event.preventDefault()
             if(country!=='us'){
                 setCountry('us')
-                supportFunction('general','/us/')
+                supportFunction('general')
             }
         }
         const korea=(event:React.MouseEvent)=>{
             event.preventDefault()
             if(country!=='kr'){
                 setCountry('kr')
-                supportFunction('general','/kr/')
+                supportFunction('general')
             }
         }
         const canada=(event:React.MouseEvent)=>{
             event.preventDefault()
             if(country!=='ca'){
                 setCountry('ca')
-                supportFunction('general','/ca/')
+                supportFunction('general')
             }
         }
         const india=(event:React.MouseEvent)=>{
             event.preventDefault()
-            if(country!=='in'){
-                setCountry('in')
-                supportFunction('general','/in/')
-            }
+                    setCountry('in')
+                    supportFunction('general')
+                
         }
      
           const general=(event:React.MouseEvent)=>{
         event.preventDefault()
+        dispatch(HideDropdownActions.setHideDropdown(true))
         if(category!=='general'){
-            supportFunction('general',`/${country}/general`)
+            supportFunction('general')
       }   
 }
       const health=(event:React.MouseEvent)=>{
         event.preventDefault()
+        dispatch(HideDropdownActions.setHideDropdown(true))
         if(category!=='health'){
-            supportFunction('health',`/${country}/health`)
+            supportFunction('health')
       }  
  }
       const business=(event:React.MouseEvent)=>{
     event.preventDefault()
+    dispatch(HideDropdownActions.setHideDropdown(true))
     if(category!=='business'){
-       supportFunction('business',`/${country}/business`)
+       supportFunction('business')
   }  
   }    
   const science=(event:React.MouseEvent)=>{
     event.preventDefault()
+    dispatch(HideDropdownActions.setHideDropdown(true))
     if(category!=='science'){
-               supportFunction('science',`/${country}/science`)
+               supportFunction('science')
   }  
   }   
   const technology=(event:React.MouseEvent)=>{
     event.preventDefault()
+    dispatch(HideDropdownActions.setHideDropdown(true))
     if(category!=='technology'){
-              supportFunction('technology',`/${country}/technology`)
+              supportFunction('technology')
   }  
 }
   const sports=(event:React.MouseEvent)=>{
 event.preventDefault()
+dispatch(HideDropdownActions.setHideDropdown(true))
 if(category!=='sports'){
-    supportFunction('sports',`/${country}/sports`)
+    supportFunction('sports')
 }  
 }  
 const entertainment=(event:React.MouseEvent)=>{
     event.preventDefault()
+    dispatch(HideDropdownActions.setHideDropdown(true))
     if(category!=='entertainment'){
-        supportFunction('entertainment',`/${country}/entertainment`)
+        supportFunction('entertainment')
   }  
     } 
     const homeClick=(event:React.MouseEvent)=>{
         event.preventDefault()
-        if(category!=='general' && country!=='in'){
-            supportFunction('general',`/in/`)
+        dispatch(HideDropdownActions.setHideDropdown(true))
+        if(category!=='general' || country!=='in'){
+            supportFunction('general')
             setCountry('in')
       }  
-        } 
-  
+} 
 
-
+const hideDropdownClick=(event:React.MouseEvent)=>{
+    dispatch(HideDropdownActions.setHideDropdown(true))
+}
     
 const dropdownCountry=(event:React.MouseEvent)=>{
     event.preventDefault()
+    dispatch(AlertActions.setAlert({
+        isAlert:false,
+        type:'',
+        message:``
+    }))
+    document.getElementById('dropdown-parent-user')!.classList.remove('dropdown-parent-color')
+    document.getElementById('dropdown-parent-category')!.classList.remove('dropdown-parent-color')
+    document.getElementById('dropdown-child-category')!.classList.add('hide-dropdown')
+      document.getElementById('dropdown-child-user')!.classList.add('hide-dropdown')
+      setArrowCategory('▼')
+      setArrowUser('▼')
    if(arrowCountry==='▼'){
       setArrowCountry('▲')
       document.getElementById('dropdown-parent-country')!.classList.add('dropdown-parent-color')
@@ -294,6 +328,17 @@ const dropdownCountry=(event:React.MouseEvent)=>{
 }
 const dropdownUser=(event:React.MouseEvent)=>{
     event.preventDefault()
+    dispatch(AlertActions.setAlert({
+        isAlert:false,
+        type:'',
+        message:``
+    }))
+    setArrowCategory('▼')
+      setArrowCountry('▼')
+    document.getElementById('dropdown-child-category')!.classList.add('hide-dropdown')
+      document.getElementById('dropdown-child-country')!.classList.add('hide-dropdown')
+      document.getElementById('dropdown-parent-country')!.classList.remove('dropdown-parent-color')
+    document.getElementById('dropdown-parent-category')!.classList.remove('dropdown-parent-color')
     if(arrowUser==='▼'){
        setArrowUser('▲')
        document.getElementById('dropdown-parent-user')!.classList.add('dropdown-parent-color')
@@ -306,6 +351,17 @@ const dropdownUser=(event:React.MouseEvent)=>{
  }
  const dropdownCategory=(event:React.MouseEvent)=>{
     event.preventDefault()
+    dispatch(AlertActions.setAlert({
+        isAlert:false,
+        type:'',
+        message:``
+    }))
+    setArrowCountry('▼')
+      setArrowUser('▼')
+    document.getElementById('dropdown-child-country')!.classList.add('hide-dropdown')
+    document.getElementById('dropdown-child-user')!.classList.add('hide-dropdown')
+    document.getElementById('dropdown-parent-country')!.classList.remove('dropdown-parent-color')
+    document.getElementById('dropdown-parent-user')!.classList.remove('dropdown-parent-color')
     if(arrowCategory==='▼'){
        setArrowCategory('▲')
        document.getElementById('dropdown-parent-category')!.classList.add('dropdown-parent-color')
@@ -315,15 +371,22 @@ const dropdownUser=(event:React.MouseEvent)=>{
      document.getElementById('dropdown-parent-category')!.classList.remove('dropdown-parent-color')
      document.getElementById('dropdown-child-category')!.classList.add('hide-dropdown')  
     }
- }  
-    useEffect(()=>{
-        if(!document.getElementById('dropdown-child-country')!.classList.contains('hide-dropdown')){
-            if(hideDropdown){
-                document.getElementById('dropdown-child-country')!.classList.add('hide-dropdown')
-                dispatch(HideDropdownActions.setHideDropdown(false))
-            }
-        }
-    },[hideDropdown,dispatch])
+ } 
+
+ useEffect(()=>{
+    if(bodyClick){
+      document.getElementById('dropdown-child-category')!.classList.add('hide-dropdown')
+      document.getElementById('dropdown-child-country')!.classList.add('hide-dropdown')
+      document.getElementById('dropdown-child-user')!.classList.add('hide-dropdown')
+      document.getElementById('dropdown-parent-country')!.classList.remove('dropdown-parent-color')
+    document.getElementById('dropdown-parent-category')!.classList.remove('dropdown-parent-color')
+    document.getElementById('dropdown-parent-user')!.classList.remove('dropdown-parent-color')
+      dispatch(HideDropdownActions.setHideDropdown(false))
+      setArrowCountry('▼')
+      setArrowUser('▼')
+      setArrowCategory('▼')
+    }
+ },[bodyClick,dispatch])
     
     return(
         <>
@@ -336,12 +399,12 @@ const dropdownUser=(event:React.MouseEvent)=>{
             <Link className="category " to="/sports" onClick={sports}>sports</Link>
             <Link className="category " to="/technology" onClick={technology}>technology</Link>
             <Link className="category " to="/entertainment" onClick={entertainment}>entertainment</Link>
-             <div className="empty"></div>
+             <div className="empty" onClick={hideDropdownClick}></div>
            
             
             <div className="right">
 
-            <div className="dropdown-parent-category " onClick={dropdownCategory} id='dropdown-parent-category'>
+            <div className="dropdown-parent-category " onClick={dropdownCategory} id='dropdown-parent-category' >
                <p> Category</p>
                <p className="arrow">{arrowCategory}</p> 
                <div className="dropdown-child-category hide-dropdown" id='dropdown-child-category'>
@@ -371,7 +434,7 @@ const dropdownUser=(event:React.MouseEvent)=>{
                 </div>
             
             
-            <form className="search-form" onSubmit={searchFormSubmitHandler}>
+            <form className="search-form" onSubmit={searchFormSubmitHandler} onClick={hideDropdownClick}>
                 <input className="input" type="text" name="search" id="search" placeholder="search..." autoComplete="on"  ref={searchRef} />
             </form>
             
